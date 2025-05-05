@@ -18,6 +18,7 @@ Welcome to the Pokémon Explorer challenge! In this exercise, you'll build a min
 
 ## Repository Layout
 
+```
 pokemon-explorer-challenge/
 ├── backend/ # Express server
 │ ├── package.json
@@ -30,7 +31,7 @@ pokemon-explorer-challenge/
 │ └── index.js # Main page component (TODO)
 ├── .gitignore
 └── README.md # This file
-
+```
 ## Getting Started
 
 Clone and install dependencies
