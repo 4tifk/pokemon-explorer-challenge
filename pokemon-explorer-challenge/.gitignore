@@ -24,4 +24,7 @@ yarn-error.log*
 
 # Misc
 .DS_Store
-*.pem 
+*.pem
+
+# Solution file (hidden from candidates)
+solution.md 
