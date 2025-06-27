@@ -67,10 +67,9 @@ Implement the `fetchPokemon()` function in `frontend/pages/index.js`:
 
 ## Timebox & Workflow
 
-You have 60 minutes for this challenge. Here's a suggested approach:
+You will be presenting your solution on Monday 30th of June, AM
 
-- First 25 minutes: Create a working end-to-end stub (hardcoded responses are fine)
-- Next 35 minutes: Implement real logic and polish the UI
+You time will be sent to you in due course.
 
 Make small, descriptive commits as you go (e.g., "feat: stubbed pokemon route", "fix: add loading state").
 
