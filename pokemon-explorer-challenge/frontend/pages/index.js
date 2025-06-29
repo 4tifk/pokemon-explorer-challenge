@@ -14,16 +14,31 @@ export default function Home() {
    * 4. Handle error state (Pokemon not found, network errors, etc.)
    */
 
-  const fetchPokemon = async () => {
+  // clean input to be read properly
+  function cleanInput(input) {
 
+    let cleaned;
+    // regex to remove punctuation except "-"
+    cleaned = input.replace(/[^\w\s-]/g, "");
+    // remove trailing spaces
+    cleaned = cleaned.trim();   
+    cleaned = cleaned.toLowerCase();
+    // replace spaces with dashes so it can be searched
+    cleaned = cleaned.replace(" ", "-");
+    return cleaned;
+  }
+
+
+  const fetchPokemon = async () => {
     // fetch and return pokemon
     try {
       setLoading(true);
-      const url = "http://localhost:3001/api/pokemon/" + query;
+      const cleanQuery = cleanInput(query);
+      console.log(cleanQuery)
+      const url = "http://localhost:3001/api/pokemon/" + cleanQuery;
       const response = await fetch (url);
       const data = await response.json();
       
-
       // error checking
       if (response.ok){
         setError(null);
@@ -33,11 +48,13 @@ export default function Home() {
         setError(data.error);
         setPokemon(null);
       }
-  } catch (err) {
-    setError("Frontend Error");
-  } finally {
-    setLoading(false);
-  }
+
+    } catch (err) {
+      setError("Frontend Error");
+      
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
