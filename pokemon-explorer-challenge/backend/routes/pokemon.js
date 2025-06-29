@@ -26,12 +26,12 @@ router.get("/:name", async (req, res) => {
     const response = await fetch (url);
 
     // return error if pokemon not found
-    if(response.status === 404){
+    if (response.status === 404){
       return res.status(404).json({error: "Pokemon not found"});
     }
 
     // return error if server error
-    if(response.status === 500){
+    if (response.status === 500){
       return res.status(500).json({error: "Server Error"});
     }
 
@@ -49,7 +49,7 @@ try {
     sprite: data.sprites.front_default,
     types: data.types.map(types => types.type.name)
   };
-  
+
   res.json(pokemonData);
 
 } catch (error) {
