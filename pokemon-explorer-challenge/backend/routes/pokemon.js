@@ -16,8 +16,47 @@ const router = express.Router();
  * 4. Handle errors appropriately (404 for Pokemon not found, 500 for server errors)
  */
 router.get("/:name", async (req, res) => {
-  // TODO: Implement this route handler
-  res.status(501).json({ error: "Not implemented" });
+
+  const { name } = req.params;
+  const url = "https://pokeapi.co/api/v2/pokemon/" + name.toLowerCase();
+  let response;
+
+  // fetch data
+  try {
+    response = await fetch (url);
+
+    // return error if pokemon not found
+    if(response.status === 404){
+      return res.status(404).json({error: "Pokemon not found"});
+    }
+
+    // return error if server error
+    if(response.status === 500){
+      return res.status(500).json({error: "Server Error"});
+    }
+
+  const data = await response.json();
+  
+  } catch (error) {
+    console.log("fetch error", error);
+    return res.status(500).json({error: "Error"});
+  }
+
+
+// process and send data
+try {
+  const pokemonData = {
+    name: data.name,
+    img: data.sprites.front_default,
+    types: data.types.map(types => types.type.name)
+  };
+
+  res.json(pokemonData);
+
+} catch (error) {
+  console.log(" error", error);
+  return res.status(500).json({ error: "Error processing data" });
+}
 });
 
 export default router;
