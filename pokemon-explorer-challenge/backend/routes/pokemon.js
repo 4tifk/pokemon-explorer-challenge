@@ -19,11 +19,11 @@ router.get("/:name", async (req, res) => {
 
   const { name } = req.params;
   const url = "https://pokeapi.co/api/v2/pokemon/" + name.toLowerCase();
-  let response;
-
+  let data;
+  
   // fetch data
   try {
-    response = await fetch (url);
+    const response = await fetch (url);
 
     // return error if pokemon not found
     if(response.status === 404){
@@ -35,10 +35,9 @@ router.get("/:name", async (req, res) => {
       return res.status(500).json({error: "Server Error"});
     }
 
-  const data = await response.json();
-  
+    data = await response.json();
+
   } catch (error) {
-    console.log("fetch error", error);
     return res.status(500).json({error: "Error"});
   }
 
@@ -47,14 +46,13 @@ router.get("/:name", async (req, res) => {
 try {
   const pokemonData = {
     name: data.name,
-    img: data.sprites.front_default,
+    sprite: data.sprites.front_default,
     types: data.types.map(types => types.type.name)
   };
-
+  
   res.json(pokemonData);
 
 } catch (error) {
-  console.log(" error", error);
   return res.status(500).json({ error: "Error processing data" });
 }
 });

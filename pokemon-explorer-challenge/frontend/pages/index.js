@@ -13,9 +13,15 @@ export default function Home() {
    * 3. Handle success state (set pokemon data)
    * 4. Handle error state (Pokemon not found, network errors, etc.)
    */
+
   const fetchPokemon = async () => {
-    // TODO: Implement this function
-    alert("Not implemented yet!");
+
+    // fetch and return pokemon
+    const url = "http://localhost:3001/api/pokemon/" + query;
+    const response = await fetch (url);
+    const data = await response.json();
+    console.log(data);
+    setPokemon(data);
   };
 
   return (
