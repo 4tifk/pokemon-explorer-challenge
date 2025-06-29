@@ -8,15 +8,12 @@ export default function Home() {
 
   /**
    * TODO: Implement this function to:
-   * 1. Call your backend API at http://localhost:3001/api/pokemon/{name}
-   * 2. Handle loading state (before/during fetch)
-   * 3. Handle success state (set pokemon data)
-   * 4. Handle error state (Pokemon not found, network errors, etc.)
+   * 1. Styling
+   * 2. tests
    */
 
   // clean input to be read properly
   function cleanInput(input) {
-
     let cleaned;
     // regex to remove punctuation except "-"
     cleaned = input.replace(/[^\w\s-]/g, "");
@@ -27,7 +24,6 @@ export default function Home() {
     cleaned = cleaned.replace(" ", "-");
     return cleaned;
   }
-
 
   const fetchPokemon = async () => {
     // fetch and return pokemon
@@ -40,7 +36,7 @@ export default function Home() {
       const data = await response.json();
       
       // error checking
-      if (response.ok){
+      if (response.ok) {
         setError(null);
         setPokemon(data);
 
