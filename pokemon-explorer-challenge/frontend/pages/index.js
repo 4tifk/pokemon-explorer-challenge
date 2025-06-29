@@ -47,7 +47,7 @@ export default function Home() {
 
     } catch (err) {
       console.log("Frontend Error", err)
-      setError("Failed to find Pokemon");
+      setError("Connection refused (Backend may be down)");
       
     } finally {
       setLoading(false);
