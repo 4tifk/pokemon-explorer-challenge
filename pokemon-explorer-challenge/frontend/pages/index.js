@@ -17,11 +17,27 @@ export default function Home() {
   const fetchPokemon = async () => {
 
     // fetch and return pokemon
-    const url = "http://localhost:3001/api/pokemon/" + query;
-    const response = await fetch (url);
-    const data = await response.json();
-    console.log(data);
-    setPokemon(data);
+    try {
+      setLoading(true);
+      const url = "http://localhost:3001/api/pokemon/" + query;
+      const response = await fetch (url);
+      const data = await response.json();
+      
+
+      // error checking
+      if (response.ok){
+        setError(null);
+        setPokemon(data);
+
+      } else {
+        setError(data.error);
+        setPokemon(null);
+      }
+  } catch (err) {
+    setError("Frontend Error");
+  } finally {
+    setLoading(false);
+  }
   };
 
   return (
