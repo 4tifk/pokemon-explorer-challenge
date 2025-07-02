@@ -6,43 +6,34 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+
   /**
    * TODO: Implement this function to:
    * 1. move functions to its own components (not neccessary as small project)
    * 2. Styling (css file)
    * 3. tests
+   * 4. cache
+   * 5. display search history
+   * 6. style like old school pokemon
+   * 7. display more data from api
    */
-
-  // clean input to be read properly
-  function cleanInput(input) {
-    let cleaned;
-    // regex to remove punctuation except "-"
-    cleaned = input.replace(/[^\w\s-]/g, "");
-    // remove trailing spaces
-    cleaned = cleaned.trim();   
-    cleaned = cleaned.toLowerCase();
-    // replace spaces with dashes so it can be searched
-    cleaned = cleaned.replace(" ", "-");
-    return cleaned;
-  }
 
   const fetchPokemon = async () => {
     // fetch and return pokemon
     try {
       setLoading(true);
-      const cleanQuery = cleanInput(query);
-      const url = "http://localhost:3001/api/pokemon/" + cleanQuery;
+      setError(null);
+      setPokemon(null);
+      const url = "http://localhost:3001/api/pokemon/" + query;
       const response = await fetch (url);
       const data = await response.json();
       
       // error checking
       if (response.ok) {
-        setError(null);
         setPokemon(data);
 
       } else {
         setError(data.error);
-        setPokemon(null);
       }
 
     } catch (err) {
@@ -63,7 +54,6 @@ export default function Home() {
         justifyContent: "center",
         minHeight: "100vh",
         padding: "20px",
-        fontFamily: "Arial, Helvetica, sans-serif",
         backgroundColor: "#f9f9f9",
       }}
     >
@@ -74,10 +64,15 @@ export default function Home() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && query.trim()) {
+              fetchPokemon();  // your search function
+            }
+          }}
           placeholder="Enter a Pokémon name"
           style={{
             padding: "10px 14px",
-            fontSize: "16px",
+            fontSize: "15px",
             borderRadius: "4px",
             border: "1px solid #ccc",
             marginRight: "12px",
@@ -90,7 +85,7 @@ export default function Home() {
           disabled={loading || !query.trim()}
           style={{
             padding: "10px 20px",
-            fontSize: "16px",
+            fontSize: "16px", 
             borderRadius: "4px",
             border: "none",
             backgroundColor: loading || !query.trim() ? "#aaa" : "#0070f3",
@@ -110,6 +105,10 @@ export default function Home() {
           {loading ? "Loading..." : "Search"}
         </button>
       </div>
+      
+      { loading &&(
+          <img className="spin" style={{width: "50px"}} src= "/images/pokeball-loading.png"/>
+        )}
 
       {error && (
         <div style={{ color: "red", marginBottom: "20px", fontWeight: "600" }}>{error}</div>
@@ -120,7 +119,7 @@ export default function Home() {
           style={{
             width: "320px",
             borderRadius: "10px",
-            backgroundColor: "white",
+            backgroundColor: "#8bac0f",
             boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
             padding: "30px",
             textAlign: "center",
