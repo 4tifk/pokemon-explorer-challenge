@@ -3,8 +3,6 @@ import fetch from "node-fetch";
 
 // clean input function
 import cleanInput from '../components/utils/cleanInput.js';
-// api call
-import pokemonFetch from "../components/api/pokemonFetch.js";
 
 const router = express.Router();
 
@@ -24,8 +22,26 @@ router.get("/:name", async (req, res) => {
   const cleanName = cleanInput(name);
   const url = "https://pokeapi.co/api/v2/pokemon/" + cleanName;
 
-  // fetch data
-  const data = await pokemonFetch(res, url);
+  let data;
+
+  try {
+    const response = await fetch (url);
+
+    // return error if pokemon not found
+    if (response.status === 404) {
+      return res.status(404).json({error: "Pokemon not found"});
+    }
+
+    // return error if server error
+    if (response.status === 500) {
+      return res.status(500).json({error: "Server Error"});
+    }
+    
+    data = await response.json();
+
+  } catch (error) {
+    return res.status(500).json({error: "Error"});
+  }
 
 // process and send data
   try {
